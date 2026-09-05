@@ -35,8 +35,8 @@ object PermissionFlow {
     /** Android 6.0+(API 23) 是否已授予 POST_NOTIFICATIONS(通知)运行时权限。 */
     fun hasNotificationPermission(context: Context): Boolean {
         return Build.VERSION.SDK_INT < 33 ||
-            context.checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
-                == android.content.pm.PackageManager.PERMISSION_GRANTED
+            (context.checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+                == android.content.pm.PackageManager.PERMISSION_GRANTED)
     }
 
     /** 是否有悬浮窗权限。 */
