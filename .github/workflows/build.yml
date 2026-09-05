@@ -1,0 +1,41 @@
+# WeakNetVPN — 云端自动构建（免费 x86_64 托管 Runner）
+# 推送 / 手动触发后自动执行 ./gradlew assembleDebug 并产出可下载的 debug APK
+name: Build WeakNetVPN Debug APK
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:   # 允许在 GitHub Actions 页面手动点 "Run workflow"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest   # GitHub 托管 Runner = x86_64 Linux（官方 aapt2 可运行）
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Set up Android SDK (accept licenses, expose sdkmanager)
+        uses: android-actions/setup-android@v3
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Upload debug APK (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: weaknetvpn-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error

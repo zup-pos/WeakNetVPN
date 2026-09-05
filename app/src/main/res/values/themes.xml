@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Day/night-safe base theme -->
+    <style name="Theme.WeakNetVPN" parent="Theme.Material3.DayNight">
+        <item name="colorPrimary">@android:color/holo_green_dark</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+    </style>
+</resources>
